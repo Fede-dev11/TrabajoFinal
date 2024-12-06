@@ -9,6 +9,7 @@ public class Agregar_Tarea {
 
     // Lista para almacenar las tareas
     private ArrayList<String[]> tareas = new ArrayList<>();
+    public String NOMBRE_ARCHIVO = "tarea.csv"; // Para guardar el nombre del archivo y publico para ocuparo en otros lados
     private Scanner sc = new Scanner(System.in);
 
     // Método para agregar una tarea
@@ -36,14 +37,16 @@ public class Agregar_Tarea {
     }
 
     // Método para exportar tareas a un archivo CSV
-    public void exportarACSV(String nombreArchivo) {
+    public void exportarACSV() {
         String[] columnas = { "Tema", "Descripción", "Materia", "Fecha", "Hora"};
 
         try {
-            FileWriter writer = new FileWriter(nombreArchivo);
-
+            FileWriter writer = new FileWriter(NOMBRE_ARCHIVO);
+            if (new java.io.File(NOMBRE_ARCHIVO).length() == 0) {
+                writer.append(String.join(",", columnas)).append("\n");
+            }
             // Escribir encabezados y tareas
-            writer.append(String.join(",", columnas)).append("\n");
+            
             for (String[] tarea : tareas) {
                 writer.append(String.join(",", tarea)).append("\n");
             }
@@ -51,7 +54,7 @@ public class Agregar_Tarea {
             // Cerrar el FileWriter manualmente
             writer.close();
 
-            System.out.println("Tareas exportadas exitosamente al archivo: " + nombreArchivo);
+            System.out.println("Tareas exportadas exitosamente al archivo: " + NOMBRE_ARCHIVO);
         } catch (IOException e) {
             System.out.println("Error al exportar las tareas: " + e.getMessage());
         }

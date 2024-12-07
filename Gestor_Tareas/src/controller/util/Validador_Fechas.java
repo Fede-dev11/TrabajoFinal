@@ -1,10 +1,11 @@
-package controller;
+package controller.util;
+
 
 import java.util.Scanner;
 
 import controller.util.Utilidades;
 
-public class Funciones {
+public class Validador_Fechas {
 
     private Scanner sc = new Scanner(System.in);
 
@@ -104,6 +105,3 @@ public class Funciones {
 
 
 }
-
-
-

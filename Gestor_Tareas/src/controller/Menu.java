@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 import controller.Dependecias.Agregar_Tarea;
+import controller.Dependecias.Borrar_tarea;
 import controller.Dependecias.Buscar_Tarea;
 import controller.Dependecias.Mostrar_Tareas;
 
@@ -10,6 +11,8 @@ public class Menu {
 
     Scanner sc = new Scanner(System.in); // Scanner como atributo
     boolean menu_bucle = true; // Variable de instancia
+    Agregar_Tarea gestorTareas = new Agregar_Tarea();
+    String NOMBRE_ARCHIVO = gestorTareas.NOMBRE_ARCHIVO;
 
     // Método para regresar al menú
     public void regresarMenu() {
@@ -51,7 +54,7 @@ public class Menu {
             switch (opcion) {
                 case 1:
                     boolean agregarOtra = true;
-                    Agregar_Tarea gestorTareas = new Agregar_Tarea(); // Instancia de clase externa
+                     // Instancia de clase externa
                     while (agregarOtra) {
                         gestorTareas.Agrega(); // Llamado al método para agregar tarea
                         System.out.println("¿Desea agregar otra tarea?");
@@ -64,9 +67,7 @@ public class Menu {
                             agregarOtra = false; // Salir del bucle si elige "No"
                         }
                     }
-                    System.out.print("Ingrese el nombre del archivo para exportar (por ejemplo, tareas.csv): ");
-                    String nombreArchivo = sc.nextLine();
-                    gestorTareas.exportarACSV(nombreArchivo); // Usar la instancia para exportar tareas
+                    gestorTareas.exportarACSV(); // Usar la instancia para exportar tareas al archivo "tarea.csv"
                     regresarMenu(); // Regresar al menú
                     break;
                 case 2:
@@ -80,12 +81,18 @@ public class Menu {
                 case 3:
                     System.out.println("Ingrese el nombre del archivo: ");
                     sc.nextLine();  
-                    nombreArchivo = sc.next();  // Usamos sc directamente para leer la entrada
+                    NOMBRE_ARCHIVO = sc.next();  // Usamos sc directamente para leer la entrada
                     Mostrar_Tareas mostrar_Tareas = new Mostrar_Tareas();
-                    mostrar_Tareas.mostrarTareasDesdeCSV(nombreArchivo);  // Llamar a la función para mostrar las tareas
+                    mostrar_Tareas.mostrarTareasDesdeCSV(NOMBRE_ARCHIVO);  // Llamar a la función para mostrar las tareas
                     regresarMenu(); // Regresar al menú
                     break;
-                
+                case 4:
+                    Borrar_tarea gestor = new Borrar_tarea();
+                    String nombreArchivo = "tareas.csv";
+        
+                    // Llamar al método para eliminar una tarea
+                    gestor.eliminarTarea();
+                    regresarMenu();
                 
                 case 10:
                     System.out.println(" ");
@@ -100,7 +107,4 @@ public class Menu {
         }
         sc.close(); // Cerrar scanner
     }
-
-    // Método main para iniciar el menú
-
 }

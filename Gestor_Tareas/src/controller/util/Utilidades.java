@@ -63,14 +63,4 @@ public class Utilidades {
         //generar random con float (nextFloat) es con un parametro minimo o maximo alv
     }
 
-    public static float generaNumeroRangoFloat(float minimo, float maximo) {
-        Random random = new Random();
-        return minimo + random.nextFloat((maximo + 1) - minimo);
-    }
-
-    public static float redondear (float num) {
-        float aux = num * 100.00f;
-        float aux1 = (float)((int)aux);
-        return (aux1/100.00f);
-    }
 }

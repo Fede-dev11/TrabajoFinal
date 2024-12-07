@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 import controller.Dependecias.Agregar_Tarea;
+import controller.Dependecias.Borrar_tarea;
 import controller.Dependecias.Buscar_Tarea;
 import controller.Dependecias.Mostrar_Tareas;
 
@@ -85,8 +86,13 @@ public class Menu {
                     mostrar_Tareas.mostrarTareasDesdeCSV(NOMBRE_ARCHIVO);  // Llamar a la función para mostrar las tareas
                     regresarMenu(); // Regresar al menú
                     break;
-                
-                
+                case 4:
+                    System.out.println("Ingrese el nombre del archivo: ");
+                    String Nombrearch = sc.next();
+                    Borrar_tarea b_t = new Borrar_tarea();
+                    b_t.eliminarTarea(Nombrearch);
+
+                    break;
                 case 10:
                     System.out.println(" ");
                     System.out.println("Gracias por usar nuestro sistema. ¡Hasta pronto!");

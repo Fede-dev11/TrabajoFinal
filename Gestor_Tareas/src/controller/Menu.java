@@ -85,9 +85,11 @@ public class Menu {
                     regresarMenu(); // Regresar al menú
                     break;
                 case 4:
+
                     System.out.println("El archivo donde buscara es: " + NOMBRE_ARCHIVO);
                     Borrar_tarea b_t = new Borrar_tarea();
                     b_t.eliminarTarea(NOMBRE_ARCHIVO);
+
 
                     break;
                 case 10:

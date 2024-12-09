@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 import controller.Dependecias.Agregar_Tarea;
+import controller.Dependecias.Borrar_tarea;
 import controller.Dependecias.Buscar_Tarea;
 import controller.Dependecias.Mostrar_Tareas;
 
@@ -36,8 +37,8 @@ public class Menu {
             System.out.println("------------------BIENVENIDOS----------------------");
             System.out.println("-----GESTOR DE TAREAS-----");
             System.out.println("1. Agregar nueva tarea");
-            System.out.println("2. Buscar Tarea");
-            System.out.println("3. Modificar tarea ingresada");
+            System.out.println("2. Buscar Tarea por un criterio");
+            System.out.println("3. Mostrar todas las tareas");
             System.out.println("4. Eliminar tarea");
             System.out.println("5. Revisar estado de tareas agregadas");
             System.out.println("6. Mostrar Tareas Completadas");
@@ -70,23 +71,25 @@ public class Menu {
                     regresarMenu(); // Regresar al menú
                     break;
                 case 2:
-                    System.out.print("Ingrese el nombre del archivo CSV para buscar tareas (por ejemplo, tareas.csv): ");
-                    sc.nextLine(); // Consumir el salto de línea
-                    String archivoBusqueda = sc.nextLine();
+                    System.out.print("El archivo donde buscara es: " + NOMBRE_ARCHIVO);
+                    
                     Buscar_Tarea buscador = new Buscar_Tarea();
-                    buscador.buscarEnCSV(archivoBusqueda); // Llamar al método para buscar tareas
+                    buscador.buscarEnCSV(NOMBRE_ARCHIVO); // Llamar al método para buscar tareas
                     regresarMenu(); // Regresar al menú
                     break;
                 case 3:
-                    System.out.println("Ingrese el nombre del archivo: ");
-                    sc.nextLine();  
-                    NOMBRE_ARCHIVO = sc.next();  // Usamos sc directamente para leer la entrada
+                    System.out.println("IEl archivo donde buscara es: " + NOMBRE_ARCHIVO);
+                      // Usamos sc directamente para leer la entrada
                     Mostrar_Tareas mostrar_Tareas = new Mostrar_Tareas();
                     mostrar_Tareas.mostrarTareasDesdeCSV(NOMBRE_ARCHIVO);  // Llamar a la función para mostrar las tareas
                     regresarMenu(); // Regresar al menú
                     break;
-                
-                
+                case 4:
+                    System.out.println("El archivo donde buscara es: " + NOMBRE_ARCHIVO);
+                    Borrar_tarea b_t = new Borrar_tarea();
+                    b_t.eliminarTarea(NOMBRE_ARCHIVO);
+
+                    break;
                 case 10:
                     System.out.println(" ");
                     System.out.println("Gracias por usar nuestro sistema. ¡Hasta pronto!");

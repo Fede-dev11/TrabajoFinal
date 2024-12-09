@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import controller.Funciones;
+import controller.util.Validador;
+
 public class Agregar_Tarea {
 
     // Lista para almacenar las tareas
     private ArrayList<String[]> tareas = new ArrayList<>();
     public String NOMBRE_ARCHIVO = "tarea.csv"; // Para guardar el nombre del archivo y publico para ocuparo en otros lados
     private Scanner sc = new Scanner(System.in);
+    Validador validar = new Validador();
 
     // Método para agregar una tarea
     public void Agrega() {
@@ -24,10 +28,12 @@ public class Agregar_Tarea {
         String materia = sc.nextLine();
 
         System.out.println("Ingrese la fecha de la tarea (dd/MM/yyyy): ");
-        String fecha = sc.nextLine();
+        Funciones funciones = new Funciones();
+        String fecha = validar.validarFecha();
+        
 
         System.out.println("Ingrese la hora de la tarea (HH:mm): ");
-        String hora = sc.nextLine();
+        String hora = validar.validarHora();
 
 
 

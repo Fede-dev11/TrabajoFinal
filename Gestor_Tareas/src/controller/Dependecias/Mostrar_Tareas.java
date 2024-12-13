@@ -5,17 +5,12 @@ import java.util.Scanner;
 
 public class Mostrar_Tareas {
 
-    // Método para mostrar todas las tareas desde un archivo CSV
     public void mostrarTareasDesdeCSV(String nombreArchivo) {
         File archivo = new File(nombreArchivo);
 
         // Verificar si el archivo existe
         if (archivo.exists() && archivo.isFile()) {
-            Scanner archivoBus = null;
-
-            // Intentar abrir el archivo para lectura
-            try {
-                archivoBus = new Scanner(archivo);
+            try (Scanner archivoBus = new Scanner(archivo)) {
 
                 System.out.println("Mostrando tareas desde el archivo: " + nombreArchivo);
                 // Leer línea por línea
@@ -23,23 +18,28 @@ public class Mostrar_Tareas {
                     String line = archivoBus.nextLine();
                     String[] datosTarea = line.split(",");  // Separar por comas
 
-                    // Mostrar tarea
-                    mostrarTarea(datosTarea);
+                    // Verificar que no haya valores nulos o vacíos en los datos
+                    boolean contieneNull = false;
+                    for (String dato : datosTarea) {
+                        if (dato == null || dato.trim().isEmpty()) {
+                            contieneNull = true;
+                            break;
+                        }
+                    }
+
+                    if (!contieneNull) {
+                        mostrarTarea(datosTarea);
+                    }
                 }
 
             } catch (Exception e) {
-                System.out.println("Error al leer el archivo.");
-            } finally {
-                if (archivoBus != null) {
-                    archivoBus.close();  // Cerrar el Scanner después de leer el archivo
-                }
+                System.out.println("Error al leer el archivo: " + e.getMessage());
             }
         } else {
             System.out.println("El archivo no existe o no es válido.");
         }
     }
 
-    // Método para mostrar los datos de una tarea
     private void mostrarTarea(String[] datosTarea) {
         System.out.println("Tarea:");
         System.out.println("Tema: " + datosTarea[0]);

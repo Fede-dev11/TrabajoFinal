@@ -1,69 +1,81 @@
 package controller.Dependecias;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Borrar_tarea {
 
+    public static String NOMBRE_ARCHIVO = "tarea.csv"; 
     private Scanner sc = new Scanner(System.in);
 
-    // Método para eliminar una tarea
-    public void eliminarTarea(String nombreArchivo) {
-        ArrayList<String[]> tareas = cargarTareas(nombreArchivo);
+    private String[][] tareas = new String[100][5]; 
+    private int indiceTareas = 0; 
 
-        if (tareas.isEmpty()) {
-            System.out.println("No hay tareas disponibles para eliminar.");
-            return;
-        }
-
-        // Mostrar tareas disponibles
-        for (int i = 0; i < tareas.size(); i++) {
-            String[] tarea = tareas.get(i);
-            System.out.println((i + 1) + ". Tema: " + tarea[0] + ", Descripción: " + tarea[1] +", Materia: " + tarea[2] + ", Fecha: " + tarea[3] + ", Hora: " + tarea[4]);
-        }
-
-        // Solicitar tarea a eliminar
-        System.out.print("Ingrese el número de la tarea que desea eliminar: ");
-        int indice = sc.nextInt() - 1;
-        sc.nextLine(); // Consumir la línea restante
-
-        if (indice < 0 || indice >= tareas.size()) {
-            System.out.println("Número inválido.");
-            return;
-        }
-
-        // Eliminar y guardar cambios
-        tareas.remove(indice);
-        guardarTareas(nombreArchivo, tareas);
-        System.out.println("Tarea eliminada exitosamente.");
-    }
-
-    // Método para cargar tareas desde el archivo
-    private ArrayList<String[]> cargarTareas(String nombreArchivo) {
-        ArrayList<String[]> tareas = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
-            br.readLine(); // Saltar encabezado
+    private void cargarTareas() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_ARCHIVO))) {
             String linea;
-            while ((linea = br.readLine()) != null) {
-                tareas.add(linea.split(","));
+            indiceTareas = 0;
+
+            // Leer las líneas del archivo CSV
+            while ((linea = reader.readLine()) != null) {
+                if (indiceTareas >= tareas.length) {
+                    System.out.println("El array de tareas está lleno. Algunas tareas no se cargaron.");
+                    break;
+                }
+                tareas[indiceTareas] = linea.split(",");
+                indiceTareas++;
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
-        return tareas;
     }
 
-    // Método para guardar tareas en el archivo
-    private void guardarTareas(String nombreArchivo, ArrayList<String[]> tareas) {
-        try (FileWriter writer = new FileWriter(nombreArchivo)) {
-            writer.write("Tema,Descripción,Materia,Fecha,Hora\n");
-            for (String[] tarea : tareas) {
-                writer.write(String.join(",", tarea) + "\n");
+    public void eliminarTarea() {
+        cargarTareas(); 
+
+        System.out.println("Ingrese el tema de la tarea que desea eliminar: ");
+        String temaEliminar = sc.nextLine();
+
+        boolean tareaEncontrada = false;
+        int nuevaIndice = 0;
+
+        // Crear un nuevo array temporal para las tareas actualizadas
+        String[][] tareasActualizadas = new String[100][5];
+
+        for (int i = 0; i < indiceTareas; i++) {
+            if (!tareas[i][0].equals(temaEliminar)) {
+                tareasActualizadas[nuevaIndice] = tareas[i];
+                nuevaIndice++;
+            } else {
+                tareaEncontrada = true;
             }
+        }
+
+        if (tareaEncontrada) {
+            indiceTareas = nuevaIndice;
+            tareas = tareasActualizadas;
+            exportarACSV();
+            System.out.println("Tarea eliminada exitosamente.");
+        } else {
+            System.out.println("No se encontró una tarea con el tema: " + temaEliminar);
+        }
+    }
+
+    private void exportarACSV() {
+        try (FileWriter writer = new FileWriter(NOMBRE_ARCHIVO)) {
+            String[] columnas = {"Tema", "Descripción", "Materia", "Fecha", "Hora"};
+            writer.append(String.join(",", columnas)).append("\n");
+
+            for (int i = 0; i < indiceTareas; i++) {
+                writer.append(String.join(",", tareas[i])).append("\n");
+            }
+
+            System.out.println("Tareas exportadas exitosamente al archivo: " + NOMBRE_ARCHIVO);
         } catch (IOException e) {
-            System.out.println("Error al guardar el archivo: " + e.getMessage());
+            System.out.println("Error al exportar las tareas: " + e.getMessage());
         }
     }
 }
-

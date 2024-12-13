@@ -15,23 +15,22 @@ public class Buscar_Tarea {
             Scanner archivoBus = null;
             boolean encontrado = false;
 
-            // Leer el archivo línea por línea
             try {
                 archivoBus = new Scanner(archivo);
                 System.out.println("Ingrese el criterio de búsqueda: ");
                 Scanner sc = new Scanner(System.in);
                 String criterio = sc.nextLine().toLowerCase();
 
-                // Leer línea por línea
+               
                 while (archivoBus.hasNextLine()) {
                     String line = archivoBus.nextLine();
-                    String[] datosTarea = line.split(",");  // Separar por comas
+                    String[] datosTarea = line.split(",");  
 
-                    // Verificar si alguna columna contiene el criterio de búsqueda
+                    
                     for (String dato : datosTarea) {
                         if (dato.toLowerCase().contains(criterio)) {
                             encontrado = true;
-                            mostrarTarea(datosTarea);  // Mostrar tarea
+                            mostrarTarea(datosTarea);  
                             break;
                         }
                     }
@@ -42,12 +41,8 @@ public class Buscar_Tarea {
                 }
             } catch (Exception e) {
                 System.out.println("Error al leer el archivo.");
-            } finally {
-                if (archivoBus != null) {
-                    archivoBus.close();  // Cerrar el Scanner después de leer el archivo
-                }
-            }
-        } else {
+            } 
+            } else {
             System.out.println("El archivo no existe o no es válido.");
         }
     }

@@ -5,19 +5,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import controller.Funciones;
-import controller.util.Validador;
+
+import controller.util.Validador_Fechas;
+import controller.util.Validador_Hora;
 
 public class Agregar_Tarea {
 
     // Lista para almacenar las tareas
-    private ArrayList<String[]> tareas = new ArrayList<>();
-    public String NOMBRE_ARCHIVO = "tarea.csv"; // Para guardar el nombre del archivo y publico para ocuparo en otros lados
+    public String[][] tareas = new String[100][5]; 
+    public int indiceTareas = 0; 
+    public String NOMBRE_ARCHIVO = "tarea.csv"; 
     private Scanner sc = new Scanner(System.in);
-    Validador validar = new Validador();
 
     // Método para agregar una tarea
     public void Agrega() {
+        if (indiceTareas >= tareas.length) {
+            System.out.println("No se pueden agregar más tareas. El almacenamiento está lleno.");
+            return;
+        }
         System.out.println("Ingrese el tema de la tarea: ");
         String tema = sc.nextLine();
 
@@ -28,36 +33,41 @@ public class Agregar_Tarea {
         String materia = sc.nextLine();
 
         System.out.println("Ingrese la fecha de la tarea (dd/MM/yyyy): ");
-        Funciones funciones = new Funciones();
-        String fecha = validar.validarFecha();
-        
+        Validador_Fechas funciones = new Validador_Fechas();
+        String fecha = funciones.validarFecha();
 
         System.out.println("Ingrese la hora de la tarea (HH:mm): ");
-        String hora = validar.validarHora();
+        Validador_Hora v_hora = new Validador_Hora();
+        String hora = v_hora.validarHora();
 
-
-
-        // Guardar la tarea
-        tareas.add(new String[]{ tema, descripcion, materia, fecha, hora, });
+        // Guardar la tarea en la lista
+        tareas[indiceTareas] = new String[]{tema, descripcion, materia, fecha, hora};
+        indiceTareas++;
         System.out.println("Tarea agregada exitosamente.");
     }
 
-    // Método para exportar tareas a un archivo CSV
+    
     public void exportarACSV() {
-        String[] columnas = { "Tema", "Descripción", "Materia", "Fecha", "Hora"};
+        String[] columnas = {"Tema", "Descripción", "Materia", "Fecha", "Hora"};
 
         try {
-            FileWriter writer = new FileWriter(NOMBRE_ARCHIVO);
-            if (new java.io.File(NOMBRE_ARCHIVO).length() == 0) {
+            // Verificar si el archivo ya existe y tiene contenido
+            boolean archivoExiste = new java.io.File(NOMBRE_ARCHIVO).exists();
+
+            FileWriter writer = new FileWriter(NOMBRE_ARCHIVO, true);
+
+            // Si el archivo está vacío, escribir los encabezados
+            if (!archivoExiste || new java.io.File(NOMBRE_ARCHIVO).length() == 0) {
                 writer.append(String.join(",", columnas)).append("\n");
             }
-            // Escribir encabezados y tareas
-            
+
             for (String[] tarea : tareas) {
                 writer.append(String.join(",", tarea)).append("\n");
             }
 
-            // Cerrar el FileWriter manualmente
+            tareas = new String[100][5];
+            indiceTareas = 0;
+            
             writer.close();
 
             System.out.println("Tareas exportadas exitosamente al archivo: " + NOMBRE_ARCHIVO);

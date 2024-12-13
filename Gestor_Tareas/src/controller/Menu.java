@@ -53,7 +53,7 @@ public class Menu {
             switch (opcion) {
                 case 1:
                     boolean agregarOtra = true;
-                     
+                    
                     while (agregarOtra) {
                         gestorTareas.Agrega(); 
                         System.out.println("¿Desea agregar otra tarea?");
@@ -87,7 +87,6 @@ public class Menu {
                     break;
                 case 4:
                     Borrar_tarea gestor = new Borrar_tarea();
-                    String nombreArchivo = "tareas.csv";
         
                     // Llamar al método para eliminar una tarea
                     gestor.eliminarTarea();
@@ -106,3 +105,6 @@ public class Menu {
         }
     }
 }
+
+//completado armar un sistema de guardado simple para almacenar las tareas, el agregar tareas, borrar tareas y mostrarlas.
+//falta modificar tarea, el agreggar notas después de ser agregadas, y el mostrar tareas solo por hacer o por materias.

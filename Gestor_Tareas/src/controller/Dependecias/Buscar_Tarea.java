@@ -6,22 +6,22 @@ import java.util.Scanner;
 
 public class Buscar_Tarea {
 
+    public static Scanner sc = new Scanner(System.in);
     // Método para buscar tareas en un archivo CSV
     public void buscarEnCSV(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
+        File archivo = new File(nombreArchivo); //se crea un objeto de Tarea.csv para ser leido
 
         // Verificar si el archivo existe
-        if (archivo.exists() && archivo.isFile()) {
+        if (archivo.exists() && archivo.isFile()) { //leera si el archivo existe 
             Scanner archivoBus = null;
             boolean encontrado = false;
 
             try {
                 archivoBus = new Scanner(archivo);
                 System.out.println("Ingrese el criterio de búsqueda: ");
-                Scanner sc = new Scanner(System.in);
+                
                 String criterio = sc.nextLine().toLowerCase();
 
-               
                 while (archivoBus.hasNextLine()) {
                     String line = archivoBus.nextLine();
                     String[] datosTarea = line.split(",");  

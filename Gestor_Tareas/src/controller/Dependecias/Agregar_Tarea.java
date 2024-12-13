@@ -2,7 +2,6 @@ package controller.Dependecias;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -10,11 +9,11 @@ import controller.util.Validador_Fechas;
 import controller.util.Validador_Hora;
 
 public class Agregar_Tarea {
-
+    //variables publicas
     // Lista para almacenar las tareas
-    public String[][] tareas = new String[100][5]; 
-    public int indiceTareas = 0; 
-    public String NOMBRE_ARCHIVO = "tarea.csv"; 
+    public String[][] tareas = new String[100][5]; // ponemos un string de 100 para que agregue las tareas agusto
+    public int indiceTareas = 0;  //
+    public String NOMBRE_ARCHIVO = "tarea.csv";  //nombre del archivo que se va a crear
     private Scanner sc = new Scanner(System.in);
 
     // Método para agregar una tarea
@@ -48,7 +47,7 @@ public class Agregar_Tarea {
 
     
     public void exportarACSV() {
-        String[] columnas = {"Tema", "Descripción", "Materia", "Fecha", "Hora"};
+        String[] columnas = {"Tema", "Descripción", "Materia", "Fecha", "Hora"}; 
 
         try {
             // Verificar si el archivo ya existe y tiene contenido
